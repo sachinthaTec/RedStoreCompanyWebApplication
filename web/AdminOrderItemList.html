@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Order Item List</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+    }
+    .table-container {
+      margin-top: 50px;
+    }
+    .status-select {
+      min-width: 130px;
+    }
+    .admin-header {
+      background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .logo img {
+      height: 40px;
+    }
+  </style>
+</head>
+<body>
+
+     <div class="admin-header">
+         <a class="navbar-brand logo" href="Dashboard.html">
+        <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store">
+    </a>
+    <h2>Admin - Order Item List</h2>
+  </div>
+<div class="container table-container">
+  <div class="d-flex justify-content-end mb-3">
+    <button class="btn btn-primary" onclick="window.print()">
+      🖨️ Print Report
+    </button>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle text-center bg-white shadow-sm">
+      <thead class="table-dark">
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="order-table-body">
+        <!-- Sample Row -->
+        <tr data-order-id="101">
+          <td>#101</td>
+          <td>Sachintha Guruge</td>
+          <td>Gaming Laptop</td>
+          <td>1</td>
+          <td>Rs. 350,000.00</td>
+          <td>
+            <select class="form-select status-select">
+              <option value="Pending">Pending</option>
+              <option value="Paid">Paid</option>
+              <option value="Processing">Processing</option>
+              <option value="Shipped">Shipped</option>
+              <option value="Delivered">Delivered</option>
+            </select>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-primary" onclick="updateStatus(this)">Update</button>
+          </td>
+        </tr>
+
+        <!-- Add more rows dynamically here -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- Bootstrap JS Bundle -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  async function loadOrders() {
+    const response = await fetch("LoadAdminOrderItems");
+    const json = await response.json();
+
+    const tbody = document.getElementById("order-table-body");
+    tbody.innerHTML = "";
+
+    if (json.status) {
+        json.orderList.forEach(order => {
+            const row = document.createElement("tr");
+            row.setAttribute("data-order-id", order.id);
+
+            row.innerHTML = `
+                <td>#${order.id}</td>
+                <td>${order.orders.user.first_name} ${order.orders.user.last_name}</td>
+                <td>${order.product.title}</td>
+                <td>${order.qty}</td>
+                <td>Rs. ${(order.product.price * order.qty).toLocaleString()}</td>
+                <td>
+                  <select class="form-select status-select">
+                    <option value="Pending" ${order.orderStatus.value === "Pending" ? "selected" : ""}>Pending</option>
+                    <option value="Paid" ${order.orderStatus.value === "Paid" ? "selected" : ""}>Paid</option>
+                    <option value="Processing" ${order.orderStatus.value === "Processing" ? "selected" : ""}>Processing</option>
+                    <option value="Shipped" ${order.orderStatus.value === "Shipped" ? "selected" : ""}>Shipped</option>
+                    <option value="Delivered" ${order.orderStatus.value === "Delivered" ? "selected" : ""}>Delivered</option>
+                  </select>
+                </td>
+                <td>
+                  <button class="btn btn-sm btn-primary" onclick="updateStatus(this)">Update</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+}
+
+function updateStatus(button) {
+    const row = button.closest("tr");
+    const orderId = row.getAttribute("data-order-id");
+    const newStatus = row.querySelector("select").value;
+
+    fetch("UpdateOrderItemStatus", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderId, status: newStatus })
+    }).then(res => res.json())
+      .then(json => {
+        if (json.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Status Updated!',
+                text: `Order #${orderId} status changed to ${newStatus}.`,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Update Failed',
+                text: 'Failed to update order status. Please try again.',
+            });
+        }
+    });
+}
+
+// Load orders when page loads
+window.onload = loadOrders;
+
+
+</script>
+
+</body>
+</html>

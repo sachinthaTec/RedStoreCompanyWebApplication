@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout-REDStore</title>
+    <link rel="icon" type="image/png" href="assets/IMG/Rs-logo.svg.png">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="assets/css/notification.css">
+    <!-- Custom CSS -->
+    <style>
+        .axil-checkout-area {
+            padding: 60px 0;
+        }
+
+        .axil-checkout-billing,
+        .axil-order-summery {
+            border: 1px solid #e6e6e6;
+            padding: 25px;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .axil-checkout-billing h4,
+        .axil-order-summery h5 {
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label span {
+            color: red;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .summery-table th,
+        .summery-table td {
+            font-size: 14px;
+        }
+
+        .order-total td {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .single-payment img {
+            width: 40px;
+            margin-left: 5px;
+        }
+
+         .navbar {
+      background-color: #1e1e1e;
+      transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+
+    .navbar:hover {
+      background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%);
+      box-shadow: 0 6px 24px rgba(221,36,118,0.18);
+    }
+
+    .navbar .nav-link, .navbar .navbar-brand, .navbar .dropdown-toggle {
+      transition: color 0.4s;
+    }
+    .navbar:hover .nav-link, .navbar:hover .navbar-brand, .navbar:hover .dropdown-toggle {
+      color: #fff !important;
+      text-shadow: 0 2px 8px rgba(221,36,118,0.18);
+    }
+
+    .navbar .form-control,
+    .navbar .btn {
+      border-radius: 0;
+      background: #f7dde9;
+      color: #201e1e;
+      border: none;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+    .navbar .btn:hover, .navbar .btn:focus {
+      background: #dd2476;
+      color: #0f0f0f;
+      box-shadow: 0 4px 16px rgba(255,81,47,0.18);
+    }
+    .navbar .btn-outline-info {
+      background: transparent;
+      color: #dd2476;
+      border: 1px solid #dd2476;
+      box-shadow: none;
+    }
+    .navbar .btn-outline-info:hover, .navbar .btn-outline-info:focus {
+      background: #dd2476;
+      color: #fff;
+      border-color: #dd2476;
+      box-shadow: 0 4px 16px rgba(221,36,118,0.18);
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+     .footer {
+      background: #1e1e1e;
+      color: white;
+      padding: 30px 0;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    </style>
+</head>
+ <!-- 🔻 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+  <div class="container-fluid px-5">
+      <a class="navbar-brand logo" href="index.html">
+        <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store">
+    </a>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">My RED Store</button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="Profile.html">My Profile</a></li>
+          <li><a class="dropdown-item" href="CustomerOrderList.html">My Orders</a></li>
+        </ul>
+      </div>
+      <a href="#" class="text-white fs-5"><i class="bi bi-heart"></i></a>
+      
+      
+    </div>
+  </div>
+</nav>
+<body style="background-color: #f9f9f9;" onload="loadCheckoutData();">
+
+    <!-- Checkout Area -->
+    <div class="axil-checkout-area axil-section-gap">
+        <div class="container">
+            <form id="checkoutForm" action="#" method="POST">
+                <div class="row">
+                    <!-- Shipping Details -->
+                    <div class="col-lg-6">
+                        <div class="axil-checkout-billing">
+                            <h4 class="title mb-4">Shipping Details</h4>
+
+                            <div class="form-group d-flex align-items-center mb-3">
+                                <input type="checkbox" id="checkbox1" class="me-2">
+                                <label for="checkbox1">Same as your current address?</label>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>First Name <span>*</span></label>
+                                        <input id="first-name" type="text" class="form-control" name="firstName" required>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Last Name <span>*</span></label>
+                                        <input id="last-name" type="text" class="form-control" name="lastName" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>City <span>*</span></label>
+                                <select id="city-select" class="form-control" name="city" required>
+                                    <option value="0">Select</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address Line 1 <span>*</span></label>
+                                <input id="line-one" type="text" class="form-control" placeholder="House number and street name"
+                                    name="address1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Address Line 2</label>
+                                <input id="line-two" type="text" class="form-control"
+                                    placeholder="Apartment, suite, unit, etc. (optional)" name="address2">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Postal Code <span>*</span></label>
+                                <input id="postal-code" type="text" class="form-control" name="postalCode" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Mobile <span>*</span></label>
+                                <input id="mobile" type="text" class="form-control" name="mobile" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Order Summary -->
+                    <div class="col-lg-6">
+                        <div class="axil-order-summery order-checkout-summery">
+                            <h5 class="title mb-3">Your Order</h5>
+                            <div class="summery-table-wrap">
+                                <table class="table summery-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Subtotal</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="st-tbody">
+                                        <!-- Dynamic Items -->
+                                        <tr class="order-product" id="st-item-tr">
+                                            <td><span id="st-product-title">Product-1</span> x<span id="st-product-qty" class="quantity">1</span></td>
+                                            <td>Rs. <span id="st-product-price"></span></td>
+                                        </tr>
+                                        <tr class="order-subtotal" id="st-subtotal-tr">
+                                            <td>Subtotal</td>
+                                            <td>Rs. <span id="st-product-total-amount"></span></td>
+                                        </tr>
+                                        <tr class="order-shipping" id="st-order-shipping-tr">
+                                            <td colspan="2">
+                                                <div class="shipping-amount d-flex justify-content-between">
+                                                    <span class="title">Shipping Charges</span>
+                                                    <span class="amount">Rs. <span id="st-product-shipping-charges">1,000.00</span></span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr class="order-total" id="st-order-total-tr">
+                                            <td>Total</td>
+                                            <td class="order-total-amount">Rs. <span id="st-order-total-amount">251,000.00</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Payment Method -->
+                            <div class="order-payment-method mt-3">
+                                <div class="single-payment">
+                                    <div
+                                        class="input-group justify-content-between align-items-center border p-2 rounded">
+                                        <div>
+                                            <input type="radio" id="radio6" name="payment" checked>
+                                            <label for="radio6">Visa / Master Card</label>
+                                        </div>
+                                        <div>
+                                            <img src="assets/IMG/visa.png" alt="Visa">
+                                            <img src="assets/IMG/mastercard.png" alt="MasterCard">
+                                        </div>
+                                    </div>
+                                    <p class="mt-2">You can pay with your credit or debit card.</p>
+                                </div>
+                            </div>
+
+                            <!-- Checkout Button -->
+                            <button type="button" class="btn btn-primary checkout-btn" onclick="checkout();">Process to Checkout</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 📥 Modern Footer -->
+<footer class="footer pt-5 pb-3" style="background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%); border-top-left-radius: 32px; border-top-right-radius: 32px; box-shadow: 0 -2px 24px #dd247633;">
+  <div class="container">
+    <div class="row text-center text-md-start align-items-center mb-4">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-2">
+            <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store" style="height: 38px; margin-right: 10px;">
+          <span class="fs-4 fw-bold text-white">RED Store</span>
+        </div>
+        <p class="text-white-50 mb-1">Crafted in Sri Lanka, Coded for the World.</p>
+        <p class="text-white-50">Your one-stop shop for quality computers and components.</p>
+        <div class="mt-2">
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-white fs-5"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h6 class="text-white mb-3"><i class="bi bi-building me-2"></i>Company</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Careers</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-white mb-3"><i class="bi bi-headset me-2"></i>Support</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Returns</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">FAQs</a></li>
+        </ul>
+        <div class="mt-3">
+          <span class="badge bg-light text-dark me-2"><i class="bi bi-shield-lock-fill me-1"></i> Secure Payments</span>
+          <span class="badge bg-light text-dark"><i class="bi bi-truck me-1"></i> Fast Delivery</span>
+        </div>
+      </div>
+    </div>
+    <hr class="text-white opacity-50">
+    <div class="text-center">
+      <span class="text-white-50">&copy; 2025 <span class="fw-bold text-white">REDStore.lk</span> &mdash; All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+
+
+    <script type="text/javascript" src="https://www.payhere.lk/lib/payhere.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/notification.js"></script>
+    <script src="assets/js/checkout.js"></script>
+</body>
+
+</html>

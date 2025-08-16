@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders-REDStore</title>
+  <link rel="icon" type="image/png" href="assets/IMG/Rs-logo.svg.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+     .navbar {
+      background-color: #1e1e1e;
+      transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+
+    .navbar:hover {
+      background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%);
+      box-shadow: 0 6px 24px rgba(221,36,118,0.18);
+    }
+
+    .navbar .nav-link, .navbar .navbar-brand, .navbar .dropdown-toggle {
+      transition: color 0.4s;
+    }
+    .navbar:hover .nav-link, .navbar:hover .navbar-brand, .navbar:hover .dropdown-toggle {
+      color: #fff !important;
+      text-shadow: 0 2px 8px rgba(221,36,118,0.18);
+    }
+
+    .navbar .form-control,
+    .navbar .btn {
+      border-radius: 0;
+      background: #f7dde9;
+      color: #201e1e;
+      border: none;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+    .navbar .btn:hover, .navbar .btn:focus {
+      background: #dd2476;
+      color: #0f0f0f;
+      box-shadow: 0 4px 16px rgba(255,81,47,0.18);
+    }
+    .navbar .btn-outline-info {
+      background: transparent;
+      color: #dd2476;
+      border: 1px solid #dd2476;
+      box-shadow: none;
+    }
+    .navbar .btn-outline-info:hover, .navbar .btn-outline-info:focus {
+      background: #dd2476;
+      color: #fff;
+      border-color: #dd2476;
+      box-shadow: 0 4px 16px rgba(221,36,118,0.18);
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+     .footer {
+      background: #1e1e1e;
+      color: white;
+      padding: 30px 0;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+</style>
+<body class="bg-light">
+
+    <!-- 🔻 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+  <div class="container-fluid px-5">
+      <a class="navbar-brand logo" href="index.html">
+        <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store">
+    </a>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">My RED Store</button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="Profile.html">My Profile</a></li>
+            <li><a class="dropdown-item" href="CustomerOrderList.html">My Orders</a></li>
+        </ul>
+      </div>
+      <a href="#" class="text-white fs-5"><i class="bi bi-heart"></i></a>
+      
+      
+    </div>
+  </div>
+</nav>
+    
+    
+<div class="container py-5">
+    <h2 class="mb-4">My Orders</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle bg-white">
+            <thead class="table-dark">
+                <tr>
+                    <th>Order ID</th>
+                    <th>Product</th>
+                    <th>Image</th>
+                    <th>Qty</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="customer-order-body">
+                <!-- Orders will be loaded here -->
+            </tbody>
+        </table>
+    </div>
+</div>
+    
+    <!-- 📥 Modern Footer -->
+<footer class="footer pt-5 pb-3" style="background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%); border-top-left-radius: 32px; border-top-right-radius: 32px; box-shadow: 0 -2px 24px #dd247633;">
+  <div class="container">
+    <div class="row text-center text-md-start align-items-center mb-4">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-2">
+            <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store" style="height: 38px; margin-right: 10px;">
+          <span class="fs-4 fw-bold text-white">RED Store</span>
+        </div>
+        <p class="text-white-50 mb-1">Crafted in Sri Lanka, Coded for the World.</p>
+        <p class="text-white-50">Your one-stop shop for quality computers and components.</p>
+        <div class="mt-2">
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-white fs-5"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h6 class="text-white mb-3"><i class="bi bi-building me-2"></i>Company</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Careers</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-white mb-3"><i class="bi bi-headset me-2"></i>Support</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Returns</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">FAQs</a></li>
+        </ul>
+        <div class="mt-3">
+          <span class="badge bg-light text-dark me-2"><i class="bi bi-shield-lock-fill me-1"></i> Secure Payments</span>
+          <span class="badge bg-light text-dark"><i class="bi bi-truck me-1"></i> Fast Delivery</span>
+        </div>
+      </div>
+    </div>
+    <hr class="text-white opacity-50">
+    <div class="text-center">
+      <span class="text-white-50">&copy; 2025 <span class="fw-bold text-white">REDStore.lk</span> &mdash; All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    async function loadCustomerOrders() {
+        const response = await fetch("LoadCustomerOrders");
+        const json = await response.json();
+
+        const tbody = document.getElementById("customer-order-body");
+        tbody.innerHTML = "";
+
+        if (json.status) {
+            json.orders.forEach(order => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>#${order.id}</td>
+                    <td>${order.product.title}</td>
+                    <td><img src="product-images/${order.product.id}/image1.png" alt="Product" style="width: 80px;"></td>
+                    <td>${order.qty}</td>
+                    <td>Rs. ${(order.product.price * order.qty).toLocaleString()}</td>
+                    <td><span class="badge bg-info">${order.orderStatus.value}</span></td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        } else {
+            Swal.fire("No Orders", "You have not placed any orders.", "info");
+        }
+    }
+
+    window.onload = loadCustomerOrders;
+</script>
+
+</body>
+</html>
+

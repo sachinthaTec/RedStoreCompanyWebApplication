@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Product List- REDStore</title>
+  <link rel="icon" type="image/png" href="assets/IMG/Rs-logo.svg.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .admin-header {
+      background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    .btn-bar {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .product-row {
+      background-color: #fff;
+      padding: 15px;
+      margin-bottom: 10px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      flex-wrap: wrap;
+    }
+    .product-image {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-right: 20px;
+    }
+    .product-info {
+      flex: 1;
+      min-width: 220px;
+    }
+    .status-select {
+      min-width: 120px;
+    }
+    .product-actions {
+      min-width: 140px;
+    }
+    @media (max-width: 576px) {
+      .product-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .product-image {
+        margin-bottom: 10px;
+        width: 100%;
+        height: auto;
+      }
+      .btn-bar {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+    
+     .logo img {
+      height: 40px;
+    }
+
+    @media print {
+      .btn-bar, .admin-header {
+        display: none !important;
+      }
+      body {
+        background: white;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-header">
+      <a class="navbar-brand logo" href="Dashboard.html">
+        <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store">
+    </a>
+    <h2>Admin - Manage Product Status</h2>
+  </div>
+
+  <div class="container">
+    <div class="btn-bar">
+        <a href="AddProduct.html"><button class="btn btn-success" onclick="">
+        ➕ Add New Product
+            </button></a>
+      <button class="btn btn-primary" onclick="window.print()">
+        🖨️ Print Report
+      </button>
+    </div>
+
+    <div id="product-list" class="mb-5">
+      <!-- Product rows will be injected here -->
+    </div>
+  </div>
+
+  <script>
+async function loadAdminProducts() {
+    const res = await fetch("LoadAdminProducts");
+    const json = await res.json();
+    const list = document.getElementById("product-list");
+    list.innerHTML = "";
+
+    if (json.status) {
+        json.productList.forEach(p => {
+            const row = document.createElement("div");
+            row.className = "product-row";
+
+            row.innerHTML = `
+                <img src="product-images/${p.id}/image1.png" class="product-image" />
+                <div class="product-info">
+                    <h5>${p.title}</h5>
+                    <p><strong>Price:</strong> Rs. ${p.price.toLocaleString()}</p>
+                    <p><strong>Qty:</strong> ${p.qty}</p>
+                </div>
+                <div class="product-actions">
+                    <label class="form-label"><strong>Status</strong></label>
+                    <select class="form-select form-select-sm status-select" onchange="updateStatus(${p.id}, this.value, '${p.title}')">
+                        <option value="Active" ${p.status.name === "Active" ? "selected" : ""}>Active</option>
+                        <option value="Pending" ${p.status.name === "Pending" ? "selected" : ""}>Pending</option>
+                    </select>
+                </div>`;
+            list.appendChild(row);
+        });
+    }
+}
+
+function updateStatus(id, newStatus, title) {
+    fetch("UpdateProductStatus", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: id, status: newStatus })
+    })
+    .then(res => res.json())
+    .then(json => {
+        if (json.success) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Updated!',
+                text: `"${title}" status changed to ${newStatus}`,
+                timer: 2000,
+                showConfirmButton: false
+            });
+        } else {
+            Swal.fire('Error', 'Failed to update status.', 'error');
+        }
+    });
+}
+
+loadAdminProducts();
+</script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

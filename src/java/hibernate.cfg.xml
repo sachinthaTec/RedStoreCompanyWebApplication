@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/red_company_db?useSSL=false&amp;allowPublicKeyRetrieval=true</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.password">Dilwarna@123</property>
+    <property name="hibernate.show_sql">true</property>
+    <mapping class="hibernate.User"/>
+    <mapping class="hibernate.City"/>
+    <mapping class="hibernate.Address"/>
+    <mapping class="hibernate.Brand"/>
+    <mapping class="hibernate.Model"/>
+    <mapping class="hibernate.Color"/>
+    <mapping class="hibernate.Category"/>
+    <mapping class="hibernate.Quality"/>
+    <mapping class="hibernate.Status"/>
+    <mapping class="hibernate.Product"/>
+    <mapping class="hibernate.Cart"/>
+    <mapping class="hibernate.DeliveryTypes"/>
+    <mapping class="hibernate.Orders"/>
+    <mapping class="hibernate.OrderStatus"/>
+    <mapping class="hibernate.OrderItems"/>
+    <mapping class="hibernate.AdminSignIn"/>
+    
+  </session-factory>
+</hibernate-configuration>
+

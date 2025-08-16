@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart-REDStore</title>
+  <link rel="icon" type="image/png" href="assets/IMG/Rs-logo.svg.png">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="assets/css/notification.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    .cart-item {
+      
+      color: rgb(10, 10, 10);
+      padding: 20px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+    }
+    .product-image {
+      width: 150px;
+    }
+    .summary-box {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    }
+    .summary-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .price-label {
+      font-weight: bold;
+    }
+    .btn-buy {
+      background-color: #28a745;
+      color: white;
+    }
+    .btn-remove {
+      background-color: #dc3545;
+      color: white;
+    }
+    .total-row {
+      font-size: 1.3rem;
+      font-weight: bold;
+    }
+    .checkout-btn {
+      background-color: #007bff;
+      color: white;
+      font-size: 1.1rem;
+    }
+
+     .navbar {
+      background-color: #1e1e1e;
+      transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+
+    .navbar:hover {
+      background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%);
+      box-shadow: 0 6px 24px rgba(221,36,118,0.18);
+    }
+
+    .navbar .nav-link, .navbar .navbar-brand, .navbar .dropdown-toggle {
+      transition: color 0.4s;
+    }
+    .navbar:hover .nav-link, .navbar:hover .navbar-brand, .navbar:hover .dropdown-toggle {
+      color: #fff !important;
+      text-shadow: 0 2px 8px rgba(221,36,118,0.18);
+    }
+
+    .navbar .form-control,
+    .navbar .btn {
+      border-radius: 0;
+      background: #f7dde9;
+      color: #201e1e;
+      border: none;
+      transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+      box-shadow: 0 2px 8px rgba(221,36,118,0.08);
+    }
+    .navbar .btn:hover, .navbar .btn:focus {
+      background: #dd2476;
+      color: #0f0f0f;
+      box-shadow: 0 4px 16px rgba(255,81,47,0.18);
+    }
+    .navbar .btn-outline-info {
+      background: transparent;
+      color: #dd2476;
+      border: 1px solid #dd2476;
+      box-shadow: none;
+    }
+    .navbar .btn-outline-info:hover, .navbar .btn-outline-info:focus {
+      background: #dd2476;
+      color: #fff;
+      border-color: #dd2476;
+      box-shadow: 0 4px 16px rgba(221,36,118,0.18);
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+     .footer {
+      background: #1e1e1e;
+      color: white;
+      padding: 30px 0;
+      font-size: 14px;
+    }
+
+    .footer a {
+      color: #ccc;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body onload="loadCartItems();">
+
+    <!-- 🔻 Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+  <div class="container-fluid px-5">
+      <a class="navbar-brand logo" href="index.html">
+        <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store">
+    </a>
+    
+    <div class="d-flex align-items-center gap-3">
+      <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">My RED Store</button>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="Profile.html">My Profile</a></li>
+          <li><a class="dropdown-item" href="#">Messages</a></li>
+        </ul>
+      </div>
+      <a href="#" class="text-white fs-5"><i class="bi bi-heart"></i></a>
+      
+      
+    </div>
+  </div>
+</nav>
+
+
+<div class="container mt-4 mb-4">
+  <div class="row" style="border: 2.5px solid #dd2476; border-radius: 16px; box-shadow: 0 2px 12px rgba(221,36,118,0.06); padding: 18px 8px 8px 8px; background: #fff;">
+    <!-- Left Side: Cart Items -->
+     <h3 class="mb-4 text-bg-light text-center">Cart</h3>
+    <div class="col-md-8" id="cart-item-container">
+
+<!--      <div class="card mb-3">
+        <div class="card-body cart-item d-flex justify-content-between align-items-center flex-wrap">
+          <div class="d-flex flex-wrap">
+            <img src="IMG/lap top.jpeg" class="product-image me-3">
+            <div>
+              <h5>ASUS TUF Gaming</h5>
+              
+              <p><span class="price-label">Price:</span> Rs. 24000.00</p>
+              <label><strong>Quantity :</strong></label>
+              <input type="number" class="form-control d-inline-block w-auto ms-2" value="1" min="1">
+            </div>
+          </div>
+          <div class="text-end">
+            
+            <button class="btn btn-remove w-100">Remove</button>
+            
+            <div class="mt-3"><span class="price-label">SUB Total: </span><strong>Rs.24000.00</strong></div>
+          </div>
+        </div>
+      </div>-->
+      
+
+      
+    </div>
+
+    <!-- Right Side: Summary -->
+    <div class="col-md-4">
+      <div class="summary-box">
+        <div class="summary-title">Summary</div>
+        <div class="d-flex justify-content-between mb-2">
+            <span>Items (<spam id="order-total-quantity"></spam>)</span>
+          <span>Rs. <span id="order-total-amount">100,000.00</span></span>
+        </div>
+        
+        <hr>
+        <div class="d-flex justify-content-between total-row mb-3">
+          <span>Total</span>
+          <span>Rs. <span id="order-total-amount1">10000.00</span></span>
+        </div>
+        <a href="Checkout.html"><button class="btn checkout-btn w-100">CHECKOUT</button></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 📥 Modern Footer -->
+<footer class="footer pt-5 pb-3" style="background: linear-gradient(90deg, #1e1e1e 60%, #dd2476 100%); border-top-left-radius: 32px; border-top-right-radius: 32px; box-shadow: 0 -2px 24px #dd247633;">
+  <div class="container">
+    <div class="row text-center text-md-start align-items-center mb-4">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <div class="d-flex align-items-center justify-content-center justify-content-md-start mb-2">
+            <img src="assets/IMG/Rs-logo.svg.png" alt="RED Store" style="height: 38px; margin-right: 10px;">
+          <span class="fs-4 fw-bold text-white">RED Store</span>
+        </div>
+        <p class="text-white-50 mb-1">Crafted in Sri Lanka, Coded for the World.</p>
+        <p class="text-white-50">Your one-stop shop for quality computers and components.</p>
+        <div class="mt-2">
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white me-3 fs-5"><i class="bi bi-twitter-x"></i></a>
+          <a href="#" class="text-white fs-5"><i class="bi bi-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h6 class="text-white mb-3"><i class="bi bi-building me-2"></i>Company</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">About Us</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Careers</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h6 class="text-white mb-3"><i class="bi bi-headset me-2"></i>Support</h6>
+        <ul class="list-unstyled">
+          <li><a href="#" class="text-white-50 text-decoration-none">Contact</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">Returns</a></li>
+          <li><a href="#" class="text-white-50 text-decoration-none">FAQs</a></li>
+        </ul>
+        <div class="mt-3">
+          <span class="badge bg-light text-dark me-2"><i class="bi bi-shield-lock-fill me-1"></i> Secure Payments</span>
+          <span class="badge bg-light text-dark"><i class="bi bi-truck me-1"></i> Fast Delivery</span>
+        </div>
+      </div>
+    </div>
+    <hr class="text-white opacity-50">
+    <div class="text-center">
+      <span class="text-white-50">&copy; 2025 <span class="fw-bold text-white">REDStore.lk</span> &mdash; All Rights Reserved</span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/cart.js"></script>
+<script src="assets/js/notification.js"></script>
+</body>
+</html>
+
